@@ -31,3 +31,6 @@ Thumbs.db
 .idea/
 .vscode/
 *.sln.iml
+
+## AI memory (local only)
+.ai/
