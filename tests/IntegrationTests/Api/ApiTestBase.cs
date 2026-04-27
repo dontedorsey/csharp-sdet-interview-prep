@@ -13,13 +13,20 @@ public abstract class ApiTestBase
 {
     protected RestClient Client = null!;
 
+    [OneTimeSetUp]
+    public void SkipIfNotConfigured()
+    {
+        if (TestConfig.Instance.ApiBaseUrl.Contains("localhost"))
+            Assert.Ignore("TEST_API_BASE_URL not configured — skipping integration tests (set the secret to run against a real API)");
+    }
+
     [SetUp]
     public virtual void SetUp()
     {
         var options = new RestClientOptions(TestConfig.Instance.ApiBaseUrl)
         {
             ThrowOnAnyError = false,
-            MaxTimeout = 30_000
+            Timeout = TimeSpan.FromSeconds(30)
         };
         Client = new RestClient(options);
     }

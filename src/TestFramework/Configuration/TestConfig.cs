@@ -16,6 +16,8 @@ public class TestConfig
 
     public static TestConfig Instance => _instance ??= Load();
 
+    private static string? Val(string? s) => string.IsNullOrEmpty(s) ? null : s;
+
     private static TestConfig Load()
     {
         var config = new ConfigurationBuilder()
@@ -26,12 +28,12 @@ public class TestConfig
 
         return new TestConfig
         {
-            BaseUrl = config["BASE_URL"] ?? "http://localhost:3000",
-            ApiBaseUrl = config["API_BASE_URL"] ?? "http://localhost:5000",
-            TestEmail = config["EMAIL"] ?? "test@example.com",
-            TestPassword = config["PASSWORD"] ?? "TestPass1!",
-            AuthMode = config["AUTH_MODE"] ?? "password",
-            TestToken = config["TOKEN"] ?? string.Empty,
+            BaseUrl = Val(config["BASE_URL"]) ?? "http://localhost:3000",
+            ApiBaseUrl = Val(config["API_BASE_URL"]) ?? "http://localhost:5000",
+            TestEmail = Val(config["EMAIL"]) ?? "test@example.com",
+            TestPassword = Val(config["PASSWORD"]) ?? "TestPass1!",
+            AuthMode = Val(config["AUTH_MODE"]) ?? "password",
+            TestToken = Val(config["TOKEN"]) ?? string.Empty,
             Headless = Environment.GetEnvironmentVariable("CI") == "true"
         };
     }
