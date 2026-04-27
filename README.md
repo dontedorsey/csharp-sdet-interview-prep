@@ -147,4 +147,4 @@ Create a variable group named `sdet-kit-test-secrets` in ADO Library containing 
 
 ---
 
-*Part of the C# SDET Interview Prep Kit — [get the full guide on Gumroad](#)*
+*Part of the C# SDET Interview Prep Kit — [get the full guide on Gumroad](https://ddorseyguides.gumroad.com/l/pbnujy)*
