@@ -15,6 +15,13 @@ public abstract class PlaywrightTestBase : PageTest
 {
     protected string BaseUrl => TestConfig.Instance.BaseUrl;
 
+    [OneTimeSetUp]
+    public void SkipIfNotConfigured()
+    {
+        if (TestConfig.Instance.BaseUrl.Contains("localhost"))
+            Assert.Ignore("TEST_BASE_URL not configured — skipping E2E tests (set STAGING_BASE_URL secret to run against a real app)");
+    }
+
     public override BrowserNewContextOptions ContextOptions() => new()
     {
         ViewportSize = new ViewportSize { Width = 1280, Height = 720 },
