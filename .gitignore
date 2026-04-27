@@ -1,0 +1,33 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+*.userprefs
+project.lock.json
+project.fragment.lock.json
+artifacts/
+
+## Test results
+TestResults/
+allure-results/
+allure-report/
+playwright-traces/
+*.trx
+*.coverage
+*.coveragexml
+
+## Config with secrets (never commit)
+testsettings.local.json
+testsettings.*.json
+!testsettings.example.json
+
+## OS
+.DS_Store
+Thumbs.db
+
+## Rider / VS Code
+.idea/
+.vscode/
+*.sln.iml

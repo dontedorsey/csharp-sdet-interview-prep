@@ -1,0 +1,116 @@
+trigger:
+  branches:
+    include: [main]
+  paths:
+    exclude: ['*.md', 'docs/']
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: 'sdet-kit-test-secrets'   # create in ADO Library: TEST_EMAIL, TEST_PASSWORD, TEST_API_BASE_URL
+  - name: dotnetVersion
+    value: '8.0.x'
+  - name: buildConfiguration
+    value: 'Release'
+
+stages:
+  - stage: BuildAndTest
+    displayName: Build + Unit + Integration
+    jobs:
+      - job: Test
+        steps:
+          - task: UseDotNet@2
+            displayName: Setup .NET
+            inputs:
+              version: $(dotnetVersion)
+
+          - task: Cache@2
+            displayName: Cache NuGet
+            inputs:
+              key: 'nuget | "$(Agent.OS)" | **/*.csproj'
+              restoreKeys: 'nuget | "$(Agent.OS)"'
+              path: $(NUGET_PACKAGES)
+
+          - script: dotnet restore
+            displayName: Restore
+
+          - script: dotnet build --no-restore --configuration $(buildConfiguration)
+            displayName: Build
+
+          - script: dotnet format --verify-no-changes --no-restore
+            displayName: Format check
+
+          - script: |
+              dotnet test tests/UnitTests \
+                --no-build --configuration $(buildConfiguration) \
+                --logger trx \
+                --results-directory $(Build.ArtifactStagingDirectory)/TestResults/Unit \
+                --filter "Category=Unit"
+            displayName: Unit tests
+
+          - script: |
+              dotnet test tests/IntegrationTests \
+                --no-build --configuration $(buildConfiguration) \
+                --logger trx \
+                --results-directory $(Build.ArtifactStagingDirectory)/TestResults/Integration \
+                --filter "Category=Integration"
+            displayName: Integration tests
+            env:
+              TEST_API_BASE_URL: $(TEST_API_BASE_URL)
+              TEST_EMAIL:        $(TEST_EMAIL)
+              TEST_PASSWORD:     $(TEST_PASSWORD)
+
+          - task: PublishTestResults@2
+            displayName: Publish test results
+            condition: always()
+            inputs:
+              testResultsFormat: VSTest
+              testResultsFiles: '$(Build.ArtifactStagingDirectory)/TestResults/**/*.trx'
+              failTaskOnFailedTests: true
+
+  - stage: E2E
+    displayName: E2E (Nightly)
+    dependsOn: BuildAndTest
+    condition: and(succeeded(), eq(variables['Build.Reason'], 'Schedule'))
+    jobs:
+      - job: E2ETests
+        steps:
+          - task: UseDotNet@2
+            displayName: Setup .NET
+            inputs:
+              version: $(dotnetVersion)
+
+          - script: dotnet restore && dotnet build --configuration $(buildConfiguration)
+            displayName: Restore + Build
+
+          - script: pwsh tests/E2ETests/bin/Release/net8.0/playwright.ps1 install --with-deps chromium
+            displayName: Install Playwright browsers
+
+          - script: |
+              dotnet test tests/E2ETests \
+                --no-build --configuration $(buildConfiguration) \
+                --logger trx \
+                --results-directory $(Build.ArtifactStagingDirectory)/TestResults/E2E \
+                --filter "Category=E2E"
+            displayName: E2E tests
+            env:
+              CI:                true
+              TEST_BASE_URL:     $(STAGING_BASE_URL)
+              TEST_EMAIL:        $(TEST_EMAIL)
+              TEST_PASSWORD:     $(TEST_PASSWORD)
+
+          - task: PublishTestResults@2
+            displayName: Publish E2E results
+            condition: always()
+            inputs:
+              testResultsFormat: VSTest
+              testResultsFiles: '$(Build.ArtifactStagingDirectory)/TestResults/E2E/*.trx'
+              failTaskOnFailedTests: true
+
+          - task: PublishBuildArtifacts@1
+            displayName: Upload traces
+            condition: always()
+            inputs:
+              PathtoPublish: playwright-traces/
+              ArtifactName: playwright-traces
