@@ -56,7 +56,7 @@ csharp-sdet-interview-prep/
 ### 1. Clone and configure
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/csharp-sdet-interview-prep.git
+git clone https://github.com/dontedorsey/csharp-sdet-interview-prep.git
 cd csharp-sdet-interview-prep
 
 # Copy example config and fill in your values
