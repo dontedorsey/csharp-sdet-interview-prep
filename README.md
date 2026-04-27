@@ -64,30 +64,20 @@ cp testsettings.example.json testsettings.local.json
 # Edit testsettings.local.json — never commit this file
 ```
 
-### 2. Create the solution
-
-```bash
-dotnet new sln -n CSharpSdetInterviewPrep
-dotnet sln add src/TestFramework/TestFramework.csproj
-dotnet sln add tests/UnitTests/UnitTests.csproj
-dotnet sln add tests/IntegrationTests/IntegrationTests.csproj
-dotnet sln add tests/E2ETests/E2ETests.csproj
-```
-
-### 3. Restore and build
+### 2. Restore and build
 
 ```bash
 dotnet restore
 dotnet build --configuration Release
 ```
 
-### 4. Install Playwright browsers (E2E only)
+### 3. Install Playwright browsers (E2E only)
 
 ```bash
 pwsh tests/E2ETests/bin/Release/net8.0/playwright.ps1 install chromium
 ```
 
-### 5. Run tests by category
+### 4. Run tests by category
 
 ```bash
 # Unit tests only
