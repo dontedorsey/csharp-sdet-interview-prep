@@ -6,6 +6,26 @@ This skeleton demonstrates the patterns, project structure, and CI pipeline conf
 
 ---
 
+## What the Code Looks Like
+
+```csharp
+// Fluent test data builder — no magic strings, no telescoping constructors
+var user = new UserBuilder()
+    .WithRole(UserRole.Admin)
+    .WithEmail("qa@example.com")
+    .Build();
+
+// Page Object Model with Playwright for .NET
+var dashboard = await loginPage.LoginAsync("qa@example.com", "ValidPass1!");
+Assert.That(await dashboard.GetWelcomeTextAsync(), Does.Contain("Welcome"));
+
+// RestSharp integration test
+var response = await _client.ExecutePostAsync<OrderResponse>(request);
+Assert.That((int)response.StatusCode, Is.EqualTo(201));
+```
+
+---
+
 ## Structure
 
 ```
