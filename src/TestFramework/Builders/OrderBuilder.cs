@@ -8,17 +8,17 @@ public class OrderBuilder : BuilderBase<OrderBuilder, Order>
     {
         Entity = new Order
         {
-            Id         = Guid.NewGuid().ToString(),
+            Id = Guid.NewGuid().ToString(),
             CustomerId = Guid.NewGuid().ToString(),
-            Status     = OrderStatus.Pending,
-            CreatedAt  = DateTime.UtcNow,
-            Items      = new List<OrderItem>()
+            Status = OrderStatus.Pending,
+            CreatedAt = DateTime.UtcNow,
+            Items = new List<OrderItem>()
         };
     }
 
     public OrderBuilder WithCustomerId(string customerId) { Entity.CustomerId = customerId; return this; }
-    public OrderBuilder WithStatus(OrderStatus status)    { Entity.Status     = status;     return this; }
-    public OrderBuilder WithCreatedAt(DateTime date)      { Entity.CreatedAt  = date;       return this; }
+    public OrderBuilder WithStatus(OrderStatus status) { Entity.Status = status; return this; }
+    public OrderBuilder WithCreatedAt(DateTime date) { Entity.CreatedAt = date; return this; }
 
     public OrderBuilder WithItem(string sku, int quantity, decimal unitPrice)
     {

@@ -8,10 +8,10 @@ namespace E2ETests.Pages;
 /// </summary>
 public class LoginPage : BasePage
 {
-    private const string EmailInput    = "[data-testid='email-input']";
+    private const string EmailInput = "[data-testid='email-input']";
     private const string PasswordInput = "[data-testid='password-input']";
-    private const string SubmitButton  = "[data-testid='login-submit']";
-    private const string ErrorBanner   = "[data-testid='login-error']";
+    private const string SubmitButton = "[data-testid='login-submit']";
+    private const string ErrorBanner = "[data-testid='login-error']";
 
     public LoginPage(IPage page, string baseUrl) : base(page, baseUrl) { }
 

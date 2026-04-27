@@ -26,13 +26,13 @@ public class TestConfig
 
         return new TestConfig
         {
-            BaseUrl     = config["BASE_URL"]      ?? "http://localhost:3000",
-            ApiBaseUrl  = config["API_BASE_URL"]  ?? "http://localhost:5000",
-            TestEmail   = config["EMAIL"]         ?? "test@example.com",
-            TestPassword= config["PASSWORD"]      ?? "TestPass1!",
-            AuthMode    = config["AUTH_MODE"]     ?? "password",
-            TestToken   = config["TOKEN"]         ?? string.Empty,
-            Headless    = Environment.GetEnvironmentVariable("CI") == "true"
+            BaseUrl = config["BASE_URL"] ?? "http://localhost:3000",
+            ApiBaseUrl = config["API_BASE_URL"] ?? "http://localhost:5000",
+            TestEmail = config["EMAIL"] ?? "test@example.com",
+            TestPassword = config["PASSWORD"] ?? "TestPass1!",
+            AuthMode = config["AUTH_MODE"] ?? "password",
+            TestToken = config["TOKEN"] ?? string.Empty,
+            Headless = Environment.GetEnvironmentVariable("CI") == "true"
         };
     }
 }

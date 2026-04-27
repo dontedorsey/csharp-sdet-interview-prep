@@ -6,7 +6,7 @@ public class DashboardPage : BasePage
 {
     private const string WelcomeHeading = "[data-testid='welcome-heading']";
     private const string UserMenuButton = "[data-testid='user-menu']";
-    private const string LogoutButton   = "[data-testid='logout-btn']";
+    private const string LogoutButton = "[data-testid='logout-btn']";
 
     public DashboardPage(IPage page, string baseUrl) : base(page, baseUrl) { }
 

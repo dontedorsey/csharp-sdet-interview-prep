@@ -28,8 +28,8 @@ public abstract class PlaywrightTestBase : PageTest
         await Context.Tracing.StartAsync(new TracingStartOptions
         {
             Screenshots = true,
-            Snapshots   = true,
-            Sources     = true
+            Snapshots = true,
+            Sources = true
         });
     }
 

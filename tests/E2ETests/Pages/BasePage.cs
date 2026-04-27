@@ -9,7 +9,7 @@ public abstract class BasePage
 
     protected BasePage(IPage page, string baseUrl)
     {
-        Page    = page;
+        Page = page;
         BaseUrl = baseUrl;
     }
 

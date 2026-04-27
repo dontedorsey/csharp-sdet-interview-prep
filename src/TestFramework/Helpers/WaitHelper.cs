@@ -11,7 +11,7 @@ public static class WaitHelper
         TimeSpan? interval = null,
         string? description = null) where T : class
     {
-        var poll     = interval ?? TimeSpan.FromMilliseconds(500);
+        var poll = interval ?? TimeSpan.FromMilliseconds(500);
         var deadline = DateTime.UtcNow + timeout;
 
         while (DateTime.UtcNow < deadline)
@@ -35,7 +35,7 @@ public static class WaitHelper
         TimeSpan? interval = null,
         string? description = null)
     {
-        var poll     = interval ?? TimeSpan.FromMilliseconds(500);
+        var poll = interval ?? TimeSpan.FromMilliseconds(500);
         var deadline = DateTime.UtcNow + timeout;
 
         while (DateTime.UtcNow < deadline)
